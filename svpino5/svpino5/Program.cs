@@ -13,7 +13,7 @@ namespace svpino5
 
             while (!IsMaxOp(ops))
             {
-                if (IsOpListCompatible(Enumerable.Range(1, 9).ToList(), ops))
+                if (IsOpListCompatible(ops))
                 {
                     PrintCombination(ops);
                 }
@@ -43,8 +43,10 @@ namespace svpino5
                     Console.WriteLine();
         }
 
-        private static bool IsOpListCompatible(List<int> intList, int[] opList)
+        private static bool IsOpListCompatible(int[] opList)
         {
+            List<int> intList = Enumerable.Range(1, 9).ToList();
+
             //Join numbers
             int j = 0;
             for (int i = 0; i < opList.Length; i++)
