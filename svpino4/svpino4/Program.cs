@@ -12,45 +12,36 @@ namespace svpino4
         {
             //Brute forces the correct solution by creating a tree which contains all possible combinations
             //and manually comparing them
-            List<int> numbers = new List<int>(new[] { 420, 42, 423 });
+            List<int> numbers = new List<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
 
             TreeNode<int> root = new TreeNode<int>(0);
 
-            GenerateTree(root, numbers);
-            SearchMaximumInTree(root, new int[numbers.Count], 0);
-
+            GenerateTree(root, numbers, new int[numbers.Count], 0);
             Console.WriteLine(max);
             Console.ReadKey();
         }
 
-        private static void SearchMaximumInTree(TreeNode<int> parent, int[] numbers, int depth)
+        private static void GenerateTree(TreeNode<int> parent, List<int> numbers, int[] currentValueArray, int depth)
         {
-            if (parent.GetLeafs() == null)
+            if (numbers.Count == 0)
             {
-                int currentValue = NumberArrayToNumber(numbers);
+                int currentValue = NumberArrayToNumber(currentValueArray);
                 max = max > currentValue ? max : currentValue;
             }
             else
             {
-                foreach (var leaf in parent.GetLeafs())
+                foreach (int num in numbers)
                 {
-                    numbers[depth] = leaf.Value;
-                    SearchMaximumInTree(leaf, numbers, depth + 1);
+                    currentValueArray[depth] = num;
+                    TreeNode<int> leaf = new TreeNode<int>(num);
+                    parent.AddLeaf(leaf);
+
+                    List<int> leafNumbers = numbers.Select(n => n).ToList();
+                    leafNumbers.RemoveAt(numbers.IndexOf(num));
+
+                    GenerateTree(leaf, leafNumbers, currentValueArray, depth + 1);
+                    parent.RemoveLeaf(leaf);
                 }
-            }
-        }
-
-        private static void GenerateTree(TreeNode<int> parent, List<int> numbers)
-        {
-            foreach (int num in numbers)
-            {
-                TreeNode<int> leaf = new TreeNode<int>(num);
-                parent.AddLeaf(leaf);
-
-                List<int> leafNumbers = numbers.Select(n => n).ToList();
-                leafNumbers.RemoveAt(numbers.IndexOf(num));
-
-                GenerateTree(leaf, leafNumbers);
             }
         }
 

@@ -18,13 +18,9 @@ namespace svpino4
             _leafs.Add(leaf);
         }
 
-        public TreeNode<T>[] GetLeafs()
+        public void RemoveLeaf(TreeNode<T> leaf)
         {
-            if (_leafs.Count == 0)
-            {
-                return null;
-            }
-            return _leafs.ToArray();
+            _leafs.RemoveAt(_leafs.IndexOf(leaf));
         }
     }
 }
