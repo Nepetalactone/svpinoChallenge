@@ -12,16 +12,14 @@ namespace svpino4
         {
             //Brute forces the correct solution by creating a tree which contains all possible combinations
             //and manually comparing them
-            List<int> numbers = new List<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            List<int> numbers = new List<int>(new[] { 52, 5, 3 });
 
-            TreeNode<int> root = new TreeNode<int>(0);
-
-            GenerateTree(root, numbers, new int[numbers.Count], 0);
+            GenerateTree(numbers, new int[numbers.Count], 0);
             Console.WriteLine(max);
             Console.ReadKey();
         }
 
-        private static void GenerateTree(TreeNode<int> parent, List<int> numbers, int[] currentValueArray, int depth)
+        private static void GenerateTree(List<int> numbers, int[] currentValueArray, int depth)
         {
             if (numbers.Count == 0)
             {
@@ -33,14 +31,10 @@ namespace svpino4
                 foreach (int num in numbers)
                 {
                     currentValueArray[depth] = num;
-                    TreeNode<int> leaf = new TreeNode<int>(num);
-                    parent.AddLeaf(leaf);
-
                     List<int> leafNumbers = numbers.Select(n => n).ToList();
                     leafNumbers.RemoveAt(numbers.IndexOf(num));
 
-                    GenerateTree(leaf, leafNumbers, currentValueArray, depth + 1);
-                    parent.RemoveLeaf(leaf);
+                    GenerateTree(leafNumbers, currentValueArray, depth + 1);
                 }
             }
         }
